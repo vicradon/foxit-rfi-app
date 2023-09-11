@@ -12,6 +12,11 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       setIsAuthenticated(false);
   }, [loginMutation.isSuccess]);
 
+  const logout = () => {
+    localStorage.removeItem("access_token");
+    setIsAuthenticated(false);
+  };
+
   return (
     <Box as="main" minHeight={"100vh"}>
       <Flex justifyContent={"space-between"} padding={8}>
@@ -22,6 +27,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
             Login
           </Button>
         )}
+        {isAuthenticated && <Button onClick={logout}>Logout</Button>}
       </Flex>
 
       {children}
