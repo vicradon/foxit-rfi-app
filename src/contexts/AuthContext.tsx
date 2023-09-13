@@ -7,35 +7,32 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useLogin } from "@/services/auth";
-import { Box, Button, Flex } from "@chakra-ui/react";
 
 interface IAuthContext {
   isAuthenticated: boolean;
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+  accessToken: string;
 }
 
 export const AuthContext = createContext<IAuthContext>({
   isAuthenticated: false,
   setIsAuthenticated: () => {},
+  accessToken: "",
 });
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
+  const [accessToken, setAccessToken] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const loginMutation = useLogin();
 
   useEffect(() => {
-    if (!loginMutation.isIdle && loginMutation.isSuccess) {
-      setIsAuthenticated(true);
-    }
-  }, [loginMutation]);
-
-  useEffect(() => {
+    setAccessToken(localStorage.getItem("access_token") || "");
     setIsAuthenticated(Boolean(localStorage.getItem("access_token")));
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider
+      value={{ accessToken, isAuthenticated, setIsAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

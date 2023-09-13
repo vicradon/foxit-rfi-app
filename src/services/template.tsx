@@ -22,23 +22,25 @@ export function useFetchTemplates(isAuthenticated: boolean) {
   });
 }
 
+interface ICreateEnvelopeFromTemplate {
+  folderName: string;
+  templateId: number;
+  parties: User[];
+}
+
 export function useCreateEnvelopeFromTemplate() {
   return useMutation({
-    mutationFn: async ({
-      templateId,
-      parties,
-    }: {
-      templateId: number;
-      parties: User[];
-    }) => {
+    mutationFn: async (props: ICreateEnvelopeFromTemplate) => {
+      const { folderName, templateId, parties } = props;
       try {
-        const { data } = await axios({
+        await axios({
           url: "/api/createEnvelopeFromTemplate",
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
           data: {
+            folderName,
             templateIds: [templateId],
             parties,
           },

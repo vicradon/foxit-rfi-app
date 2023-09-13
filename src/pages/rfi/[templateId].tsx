@@ -1,4 +1,4 @@
-import { Permission, User } from "@/interfaces";
+import { User } from "@/interfaces";
 import MainLayout from "@/layouts/MainLayout";
 import { useCreateEnvelopeFromTemplate } from "@/services/template";
 import {
@@ -13,12 +13,11 @@ import {
   Heading,
   Input,
   Select,
-  Text,
   useToast,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { v4 as uuid } from "uuid";
 
 interface ISigner {
@@ -41,6 +40,7 @@ const defaultSigner = {
 export default function Details() {
   const router = useRouter();
   const toast = useToast();
+  const [folderName, setFolderName] = useState("");
   const createEnvelopeMutation = useCreateEnvelopeFromTemplate();
   const [signers, setSigners] = useState<ISigner[]>([
     {
@@ -98,6 +98,7 @@ export default function Details() {
     event.preventDefault();
 
     await createEnvelopeMutation.mutateAsync({
+      folderName,
       templateId: Number(router.query.templateId),
       parties: mapSignersToParties(signers),
     });
@@ -119,17 +120,23 @@ export default function Details() {
           <span> Go back</span>
         </Link>
         <Box my={8}>
-          <Heading as={"h1"} textAlign={"center"} fontSize={"2xl"}>
-            Add Recepients
+          <Heading as={"h1"} fontSize={"2xl"}>
+            Create RFI from template
           </Heading>
-          <Box
-            width={{ base: "90vw", md: "350px", lg: "600px", xl: "800px" }}
-            margin={"auto"}
-            as={"form"}
-            padding={4}
-            onSubmit={sendToSigners}
-          >
+          <Box margin={"auto"} as={"form"} py={4} onSubmit={sendToSigners}>
+            <FormControl isRequired>
+              <FormLabel>Folder Name</FormLabel>
+              <Input
+                required
+                value={folderName}
+                onChange={({ target }) => setFolderName(target.value)}
+              />
+            </FormControl>
+
             <Box my={8}>
+              <Heading as={"h2"} fontSize={"xl"}>
+                Recipients
+              </Heading>
               {signers.map((signer, index) => (
                 <Grid mb={12} rowGap={4} key={signer.id}>
                   <Flex justifyContent={"space-between"} alignItems={"center"}>
@@ -171,10 +178,9 @@ export default function Details() {
                       onChange={(event) => handleInputChange(event, signer.id)}
                     />
                   </FormControl>
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormLabel>Phone number</FormLabel>
                     <Input
-                      required
                       name={"phone"}
                       value={signer.phone}
                       onChange={(event) => handleInputChange(event, signer.id)}
@@ -192,7 +198,7 @@ export default function Details() {
                         Fill fields and sign
                       </option>
                       <option value={"FILL_FIELDS_ONLY"}>
-                        Fill fieldsd only
+                        Fill fields only
                       </option>
                       <option value={"VIEW_ONLY"}>View only</option>
                     </Select>

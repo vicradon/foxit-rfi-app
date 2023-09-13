@@ -5,6 +5,7 @@ import Link from "next/link";
 import MainLayout from "@/layouts/MainLayout";
 import { useAuth } from "@/contexts/AuthContext";
 import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
+import Documents from "@/components/Documents";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
@@ -21,7 +22,11 @@ export default function Home() {
         )}
         {isAuthenticated && (
           <div className="container mx-auto px-8">
-            <Heading fontSize={"xl"}>Choose Template</Heading>
+            <Heading as={"h2"} fontSize={"xl"}>
+              Choose Template
+            </Heading>
+
+            {/* Add template list code here */}
 
             <Grid
               gridGap={4}
@@ -56,6 +61,10 @@ export default function Home() {
                 </Link>
               )}
             </Flex>
+
+            {/* Add document related code here */}
+
+            <Documents />
           </div>
         )}
       </Box>

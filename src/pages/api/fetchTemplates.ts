@@ -1,13 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import http from "./http";
 
-type Data = {
-  templates: Record<string, any>[];
-};
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   const response = await http.get("/templates/list", {
     headers: {
