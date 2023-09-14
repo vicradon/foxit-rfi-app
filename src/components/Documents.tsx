@@ -39,7 +39,9 @@ export default function Documents() {
       <Box my={4}>
         {fetchDocumentsQuery.data?.map((document: any) => {
           return (
-            <Accordion>
+            <Accordion
+            allowToggle
+            >
               <AccordionItem>
                 <AccordionButton
                   bgColor={
@@ -52,6 +54,7 @@ export default function Documents() {
                   border={"1px solid"}
                   display={"flex"}
                   justifyContent={"space-between"}
+                  
                 >
                   <Text>{document?.folder?.folderName}</Text>
 

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { useLogin } from "@/services/auth";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useAuth } from "@/contexts/AuthContext";
