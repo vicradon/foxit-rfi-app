@@ -28,32 +28,6 @@ export default function Home() {
 
             {/* Add template list code here */}
 
-            <Grid
-              gridGap={4}
-              my={4}
-              gridTemplateColumns={"repeat(auto-fill, 300px)"}
-              className="grid gap-4 my-4"
-            >
-              {!templatesQuery.isFetching &&
-                templatesQuery.data.map((template: Template) => {
-                  return (
-                    <Box
-                      cursor={"pointer"}
-                      border={
-                        template.templateId === selectedTemplate
-                          ? "2px solid blue"
-                          : ""
-                      }
-                      padding={4}
-                      rounded={"md"}
-                      key={template.templateId}
-                      onClick={() => setSelectedTemplate(template.templateId)}
-                    >
-                      <p className="p-4">{template.templateName}</p>
-                    </Box>
-                  );
-                })}
-            </Grid>
             <Flex justifyContent={"flex-end"}>
               {selectedTemplate && (
                 <Link href={`/rfi/${selectedTemplate}`}>
@@ -64,7 +38,6 @@ export default function Home() {
 
             {/* Add document related code here */}
 
-            <Documents />
           </div>
         )}
       </Box>
