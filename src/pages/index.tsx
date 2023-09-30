@@ -36,7 +36,7 @@ export default function Home() {
               )}
             </Flex>
 
-            {/* Add document related code here */}
+            {/* Add document-related code here */}
 
           </div>
         )}
