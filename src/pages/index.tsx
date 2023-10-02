@@ -17,7 +17,7 @@ export default function Home() {
       <Box padding={8}>
         {!isAuthenticated && (
           <Flex justifyContent={"center"}>
-            <Text>Login to see templates</Text>
+            <Text>Log in to see templates</Text>
           </Flex>
         )}
         {isAuthenticated && (
